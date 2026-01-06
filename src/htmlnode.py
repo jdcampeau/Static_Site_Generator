@@ -12,8 +12,8 @@ class HTMLNode:
         if self.props is None:
             return ""
         form_str = ""
-        for key, value in self.props:
-            form_str = f'{form_str} {key}="{value}",'
+        for key, value in self.props.items():
+            form_str = f'{form_str} {key}="{value}"'
         return form_str
 
     def __repr__(self):
