@@ -20,3 +20,21 @@ class HTMLNode:
         return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
 
 
+class LeafNode(HTMLNode):
+    def __init__(self, tag=None, value=None, props=None):
+        super().__init__(tag, value, props)
+        if not all([tag, value]):
+            raise ValueError("Tag and value must be provided")
+
+    
+    def to_html(self):
+        if self.value is None:
+            raise ValueError("LeafNodes must have a value")
+        if self.tag is None:
+            return f"{self.value}"
+        else:
+            html_props = self.props_to_html()
+            return f"<{self.tag}{html_props}>{self.value}</{self.tag}>"
+
+    def __repr__(self):
+        return f"LeafNode({self.tag}, {self.value}, {self.props})"
