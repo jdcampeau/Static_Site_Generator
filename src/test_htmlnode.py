@@ -27,6 +27,15 @@ class TestHTMLNode(unittest.TestCase):
         node = LeafNode("a", "Boot.dev!", {"href":"https://www.boot.dev/" })
         self.assertEqual(node.to_html(), '<a href="https://www.boot.dev/">Boot.dev!</a>')
 
+    def test_tagless_leaf_to_html(self):
+        node = LeafNode(None, "This isn't right.")
+        self.assertEqual(node.to_html(), "This isn't right.")
+
+    def test_valueless_leaf_to_html(self):
+        node = LeafNode("b", None)
+        with self.assertRaises(ValueError):
+            node.to_html()
+
     def test_to_html_with_children(self):
         child_node = LeafNode("span", "child")
         parent_node = ParentNode("div", [child_node])
