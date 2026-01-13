@@ -32,8 +32,25 @@ class LeafNode(HTMLNode):
             raise ValueError("LeafNodes must have a value")
         if self.tag is None:
             return self.value
-        else:
-            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
     def __repr__(self):
         return f"LeafNode({self.tag}, {self.value}, {self.props})"
+
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props=None):
+        super().__init__(tag, None, children, props)
+        if not all([tag, children]):
+            raise ValueError("Tag and child(ren) must be provided")
+
+    def to_html(self):
+        if self.tag is None:
+            raise ValueError("ParentNode must have tag")
+        if self.children is None:
+            raise ValueError("ParentNode must have child(ren)")
+        children_html = ""
+        for child in self.children:
+            child_html = child.to_html()
+            children_html = f"{children_html}{child_html}"
+        return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
