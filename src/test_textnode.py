@@ -1,6 +1,6 @@
 import unittest
 
-from textnode import TextType, TextNode, text_node_to_html_node
+from textnode import TextType, TextNode, text_node_to_html_node, split_nodes_delimiter
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
@@ -45,6 +45,17 @@ class TestTextNode(unittest.TestCase):
         htmo_node = text_node_to_html_node(node)
         self.assertEqual(html_node.tag, "a")
         self.assertEqual(html_node.props, {"href": "https://www.boot.dev/"})
+
+    def test_split_delimiter(self):
+        node1 = TextNode("boldtext", TextType.BOLD)
+        node2 = TextNode("plain text with some **bold text** nested in it", TextType.TEXT)
+        new_node_list = split_nodes_delimiter([node1, node2], "**", TextType.BOLD)
+        expected_result = [TextNode("boldtext", TextType.BOLD), TextNode("plain text with some ", TextType.TEXT), TextNode("bold text", TextType.BOLD), TextNode(" nested in it", TextType.TEXT)]
+        self.assertEqual(new_node_list, expected_result)
+
+    # add delimiter test for error using test node TextNode("invalid _Markdown syntax", TextType.TEXT)
+    
+    # add delimiter test to check for correct splitting when a nested italics node is the first thing in the text node
 
 
 if __name__ == "__main__":

@@ -36,18 +36,25 @@ def split_nodes_delimiter(input_nodes, delimiter, text_type):
         else:
             sub_output = []
             string_list = node.text.split(delimiter)
-            if len(string_list) != 3:
+            delimiter_count = 0
+            for char in node.text:
+                if char == delimiter:
+                    delimiter_count += 1
+            if delimiter_count % 2 != 0:
                 raise Exception("invalid Markdown syntax")
+            if node.text[0] == delimiter:
+                plaintext = False
+            else:
+                plaintext = True
             for strng in string_list:
-                idx = 0
-                if idx == 1:
+                if plaintext is False:
                     new_node = TextNode(strng, text_type)
                     sub_output.append(new_node)
-                    idx += 1
+                    plaintext = True
                 else:
                     new_node = TextNode(strng, TextType.TEXT)
                     sub_output.append(new_node)
-                    idx += 1
+                    plaintext = False
             output.extend(sub_output)
     return output
 
