@@ -40,9 +40,9 @@ def split_nodes_delimiter(input_nodes, delimiter, text_type):
             for char in node.text:
                 if char == delimiter:
                     delimiter_count += 1
-            if delimiter_count % 2 != 0:
+            if delimiter_count % 2 != 0: # this if statement will not work accurately for the bold ("**") delimiter.
                 raise Exception("invalid Markdown syntax")
-            if node.text[0] == delimiter:
+            if node.text[0] == delimiter: # this if statement will not work accurately for the bold ("**") delimiter.
                 plaintext = False
             else:
                 plaintext = True

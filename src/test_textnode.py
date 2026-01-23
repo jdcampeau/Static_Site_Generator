@@ -53,10 +53,20 @@ class TestTextNode(unittest.TestCase):
         expected_result = [TextNode("boldtext", TextType.BOLD), TextNode("plain text with some ", TextType.TEXT), TextNode("bold text", TextType.BOLD), TextNode(" nested in it", TextType.TEXT)]
         self.assertEqual(new_node_list, expected_result)
 
-    # add delimiter test for error using test node TextNode("invalid _Markdown syntax", TextType.TEXT)
+    def test_split_delimiter_error(self):
+        node1 = TextNode("invalid _Markdown syntax", TextType.TEXT)
+        with self.assertRaises(Exception):
+            split_nodes_delimiter([node1], "_", TextType.ITALIC)
     
-    # add delimiter test to check for correct splitting when a nested italics node is the first thing in the text node
+    def split_del_italic_first(self):
+        node = TextNode("_italics_ first", TextType.TEXT)
+        new_node_list = split_nodes_delimiter([node], "_", TextType.ITALIC)
+        expected_result = [TextNode("italics", TextType.ITALIC), TextNode(" first", TextType.TEXT)]
+        self.assertEqual(new_node_list, expected_result)
 
+    # add test for invalid bold Markdown syntax
+
+    # add test for node with nested bold text at the beginning
 
 if __name__ == "__main__":
     unittest.main()
