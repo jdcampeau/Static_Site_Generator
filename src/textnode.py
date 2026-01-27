@@ -37,15 +37,22 @@ def split_nodes_delimiter(input_nodes, delimiter, text_type):
             sub_output = []
             string_list = node.text.split(delimiter)
             delimiter_count = 0
-            for char in node.text:
-                if char == delimiter:
-                    delimiter_count += 1
-            if delimiter_count % 2 != 0: # this if statement will not work accurately for the bold ("**") delimiter.
+            for i in range(len(node.text)):
+                if delimiter == "**":
+                    if node.text[i] == "*" and node.text[i+1] == "*":
+                        delimiter_count += 1
+                else:
+                    if node.text[i] == delimiter:
+                        delimiter_count += 1
+            if delimiter_count % 2 != 0:
                 raise Exception("invalid Markdown syntax")
-            if node.text[0] == delimiter: # this if statement will not work accurately for the bold ("**") delimiter.
-                plaintext = False
+            plaintext = True
+            if delimiter == "**":
+                if node.text[0] == "*" and node.text[1] == "*":
+                    plaintext = False
             else:
-                plaintext = True
+                if node.text[0] == delimiter:
+                    plaintext = False
             for strng in string_list:
                 if plaintext is False:
                     new_node = TextNode(strng, text_type)

@@ -58,15 +58,17 @@ class TestTextNode(unittest.TestCase):
         with self.assertRaises(Exception):
             split_nodes_delimiter([node1], "_", TextType.ITALIC)
     
-    def split_del_italic_first(self):
+    def test_split_del_italic_first(self):
         node = TextNode("_italics_ first", TextType.TEXT)
         new_node_list = split_nodes_delimiter([node], "_", TextType.ITALIC)
         expected_result = [TextNode("italics", TextType.ITALIC), TextNode(" first", TextType.TEXT)]
         self.assertEqual(new_node_list, expected_result)
 
-    # add test for invalid bold Markdown syntax
-
-    # add test for node with nested bold text at the beginning
+    def test_split_del_bold_first(self):
+        node = TextNode("**bold** first", TextType.TEXT)
+        new_node_list = split_nodes_delimiter([node], "**", TextType.BOLD)
+        expected_result = [TextNode("bold", TextType.BOLD), TextNode(" first", TextType.TEXT)]
+        self.assertEqual(new_node_list, expected_result)
 
 if __name__ == "__main__":
     unittest.main()
