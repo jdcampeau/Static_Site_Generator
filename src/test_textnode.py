@@ -57,6 +57,11 @@ class TestTextNode(unittest.TestCase):
         node1 = TextNode("invalid _Markdown syntax", TextType.TEXT)
         with self.assertRaises(Exception):
             split_nodes_delimiter([node1], "_", TextType.ITALIC)
+
+    def test_delimiter_bold_error(self):
+        node = TextNode("invalid **markdown syntax", TextType.TEXT)
+        with self.assertRaises(Exception):
+            split_nodes_delimiter([node], "**", TextType.BOLD)
     
     def test_split_del_italic_first(self):
         node = TextNode("_italics_ first", TextType.TEXT)

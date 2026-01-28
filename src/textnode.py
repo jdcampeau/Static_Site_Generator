@@ -54,6 +54,8 @@ def split_nodes_delimiter(input_nodes, delimiter, text_type):
                 if node.text[0] == delimiter:
                     plaintext = False
             for strng in string_list:
+                if strng == "":
+                    continue
                 if plaintext is False:
                     new_node = TextNode(strng, text_type)
                     sub_output.append(new_node)
