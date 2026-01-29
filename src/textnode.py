@@ -72,24 +72,54 @@ def split_nodes_delimiter(input_nodes, delimiter, text_type):
 def split_nodes_image(old_nodes):
     output = []
     for node in old_nodes:
-        if node.text = "":
+        if node.text == "":
             continue
         new_nodes = []
         matches = extract_markdown_images(node.text)
         if len(matches) == 0:
             output.append(node)
             continue
+        sections = node.text.split(f"![{image_alt}]({image_url})")
+        plaintext = True
+        matches_index = 0
+        for section in sections:
+            if plaintext is True:
+                new_node = TextNode(section, TextType.TEXT)
+                new_nodes.append(new_node)
+                plaintext = False
+            else:
+                new_node = TextNode(matches[matches_index], TextType.IMAGE, matches[matches_index + 1])
+                matches_index += 2
+                new_nodes.append(new_node)
+                plaintext = True
+        output.append(new_nodes)
+        return output
 
 def split_nodes_link(old_nodes):
     output = []
     for node in old_nodes:
-        if node.text = "":
+        if node.text == "":
             continue
         new_nodes = []
         matches = extract_markdown_links(node.text)
         if len(matches) == 0:
             output.append(node)
             continue
+        sections = node.text.split(f"[{link_alt}]({link_url})")
+        plaintext = True
+        matches_index = 0
+        for section in sections:
+            if plaintext is True:
+                new_node = TextNode(section, TextType.TEXT)
+                new_nodes.append(new_node)
+                plaintext = False
+            else:
+                new_node = TextNode(matches[matches_index], TextType.LINK, matches[matches_index + 1])
+                matches_index += 2
+                new_nodes.append(new_node)
+                plaintext = True
+        output.append(new_nodes)
+        return output
 
 def text_node_to_html_node(TextNode):
     if TextNode.text_type == TextType.TEXT:
