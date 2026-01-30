@@ -74,25 +74,23 @@ def split_nodes_image(old_nodes):
     for node in old_nodes:
         if node.text == "":
             continue
-        new_nodes = []
         matches = extract_markdown_images(node.text)
         if len(matches) == 0:
             output.append(node)
             continue
-        sections = node.text.split(f"![{image_alt}]({image_url})")
+        sections = node.text.split(f"![{matches[0][0]}]({matches[0][1]})", 1)
         plaintext = True
         matches_index = 0
         for section in sections:
             if plaintext is True:
                 new_node = TextNode(section, TextType.TEXT)
-                new_nodes.append(new_node)
+                output.append(new_node)
                 plaintext = False
             else:
-                new_node = TextNode(matches[matches_index], TextType.IMAGE, matches[matches_index + 1])
-                matches_index += 2
-                new_nodes.append(new_node)
+                new_node = TextNode(matches[matches_index][0], TextType.IMAGE, matches[matches_index][1])
+                matches_index += 1
+                output.append(new_node)
                 plaintext = True
-        output.append(new_nodes)
         return output
 
 def split_nodes_link(old_nodes):
@@ -100,25 +98,23 @@ def split_nodes_link(old_nodes):
     for node in old_nodes:
         if node.text == "":
             continue
-        new_nodes = []
         matches = extract_markdown_links(node.text)
         if len(matches) == 0:
             output.append(node)
             continue
-        sections = node.text.split(f"[{link_alt}]({link_url})")
+        sections = node.text.split(f"[{matches[0][0]}]({matches[0][1]})")
         plaintext = True
         matches_index = 0
         for section in sections:
             if plaintext is True:
                 new_node = TextNode(section, TextType.TEXT)
-                new_nodes.append(new_node)
+                output.append(new_node)
                 plaintext = False
             else:
-                new_node = TextNode(matches[matches_index], TextType.LINK, matches[matches_index + 1])
-                matches_index += 2
-                new_nodes.append(new_node)
+                new_node = TextNode(matches[matches_index][0], TextType.LINK, matches[matches_index][1])
+                matches_index += 1
+                output.append(new_node)
                 plaintext = True
-        output.append(new_nodes)
         return output
 
 def text_node_to_html_node(TextNode):
