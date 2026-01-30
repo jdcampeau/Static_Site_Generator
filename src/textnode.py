@@ -79,9 +79,19 @@ def split_nodes_image(old_nodes):
             output.append(node)
             continue
         sections = node.text.split(f"![{matches[0][0]}]({matches[0][1]})", 1)
+        if len(matches) == 1:
+            real_sections = sections
+        else:
+            real_sections = sections
+            for i in range(1, len(matches)):   
+                next_section = real_sections.pop(real_sections[len(real_sections)-1])
+                new_sections = next_section.split(f"![{matches[i][0]}]({matches[i][1]})", 1)
+                real_sections.extend(new_sections)
         plaintext = True
+        if real_sections[0] == "":
+            plaintext = False
         matches_index = 0
-        for section in sections:
+        for section in real_sections:
             if plaintext is True:
                 new_node = TextNode(section, TextType.TEXT)
                 output.append(new_node)
@@ -106,6 +116,9 @@ def split_nodes_link(old_nodes):
         plaintext = True
         matches_index = 0
         for section in sections:
+            if section == "":
+                plaintext = False
+                continue
             if plaintext is True:
                 new_node = TextNode(section, TextType.TEXT)
                 output.append(new_node)
