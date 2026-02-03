@@ -79,12 +79,10 @@ def split_nodes_image(old_nodes):
             output.append(node)
             continue
         sections = node.text.split(f"![{matches[0][0]}]({matches[0][1]})", 1)
-        if len(matches) == 1:
-            real_sections = sections
-        else:
-            real_sections = sections
+        real_sections = sections
+        if len(matches) > 1:
             for i in range(1, len(matches)):   
-                next_section = real_sections.pop(real_sections[len(real_sections)-1])
+                next_section = real_sections.pop(len(real_sections)-1)
                 new_sections = next_section.split(f"![{matches[i][0]}]({matches[i][1]})", 1)
                 real_sections.extend(new_sections)
         plaintext = True
