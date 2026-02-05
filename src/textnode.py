@@ -89,19 +89,24 @@ def split_nodes_image(old_nodes):
         if real_sections[0] == "":
             plaintext = False
         matches_index = 0
-        for section in real_sections:
+        sect_index = 0
+        while sect_index <= len(real_sections)-1 and matches_index <= len(matches)-1:
             if plaintext is True:
-                new_node = TextNode(section, TextType.TEXT)
-                output.append(new_node)
-                plaintext = False
+                if real_sections[sect_index] == "":
+                    continue
+                else:
+                    new_node = TextNode(real_sections[sect_index], TextType.TEXT)
+                    sect_index += 1
+                    output.append(new_node)
+                    plaintext = False
             else:
                 new_node = TextNode(matches[matches_index][0], TextType.IMAGE, matches[matches_index][1])
                 matches_index += 1
                 output.append(new_node)
                 plaintext = True
-        return output
+    return output
 
-def split_nodes_link(old_nodes):
+def split_nodes_link(old_nodes): #UPDATE THIS FUNCTION TO MATCH THE STRUCTURE OF THE ABOVE FUNCTION!!!  
     output = []
     for node in old_nodes:
         if node.text == "":

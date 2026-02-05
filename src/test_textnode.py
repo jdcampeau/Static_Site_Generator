@@ -107,5 +107,11 @@ class TestTextNode(unittest.TestCase):
             new_nodes,
         )
 
+    #ADD TEST FOR test_split_links
+
+    #ADD test_split_images TEST WITH NESTED IMAGE FIRST
+
+    #ADD test_split_links TEST WITH NESTED LINK FIRST
+
 if __name__ == "__main__":
     unittest.main()
