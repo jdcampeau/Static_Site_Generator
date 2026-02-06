@@ -86,10 +86,11 @@ def split_nodes_image(old_nodes):
                 new_sections = next_section.split(f"![{matches[i][0]}]({matches[i][1]})", 1)
                 real_sections.extend(new_sections)
         plaintext = True
-        if real_sections[0] == "":
-            plaintext = False
         matches_index = 0
         sect_index = 0
+        if real_sections[0] == "":
+            plaintext = False
+            sect_index = 1
         while sect_index <= len(real_sections)-1 and matches_index <= len(matches)-1:
             if plaintext is True:
                 if real_sections[sect_index] == "":

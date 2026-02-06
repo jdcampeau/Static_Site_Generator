@@ -109,7 +109,19 @@ class TestTextNode(unittest.TestCase):
 
     #ADD TEST FOR test_split_links
 
-    #ADD test_split_images TEST WITH NESTED IMAGE FIRST
+    def test_split_images_image_first(self):
+        node = TextNode(
+            "![The image](https://i.imgur.com/zjjcJKZ.png) comes first in this text",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("The image", TextType.IMAGE, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode(" comes first in this text", TextType.TEXT),
+            ],
+            new_nodes,
+        )
 
     #ADD test_split_links TEST WITH NESTED LINK FIRST
 
