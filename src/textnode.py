@@ -113,7 +113,12 @@ def split_nodes_link(old_nodes): #UPDATE THIS FUNCTION TO MATCH THE STRUCTURE OF
             output.append(node)
             continue
         sections = node.text.split(f"[{matches[0][0]}]({matches[0][1]})")
-        plaintext = True
+        real_sections = sections
+        if len(matches) > 1:
+            for i in range(len(matches)):
+                next_section = real_sections.pop(len(real_sections)-1)
+                new_sections = next_sections.split(f"[{matches[i][0]}]({matches[i][1]})", 1)
+                real_sections.extend(new_sections)
         matches_index = 0
         for section in sections:
             if section == "":
