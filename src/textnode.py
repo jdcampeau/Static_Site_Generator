@@ -85,26 +85,22 @@ def split_nodes_image(old_nodes):
                 next_section = real_sections.pop(len(real_sections)-1)
                 new_sections = next_section.split(f"![{matches[i][0]}]({matches[i][1]})", 1)
                 real_sections.extend(new_sections)
-        plaintext = True
         matches_index = 0
-        sect_index = 0
-        if real_sections[0] == "":
-            plaintext = False
-            sect_index = 1
-        while sect_index <= len(real_sections)-1 and matches_index <= len(matches)-1:
-            if plaintext is True:
-                if real_sections[sect_index] == "":
-                    continue
+        for i in range(len(real_sections)):
+            if real_sections[i] == "":
+                if matches_index == 0:
+                    match_node = TextNode(matches[matches_index][0], TextType.IMAGE, matches[matches_index][1])
+                    output.append(match_node)
+                    matches_index += 1
                 else:
-                    new_node = TextNode(real_sections[sect_index], TextType.TEXT)
-                    sect_index += 1
-                    output.append(new_node)
-                    plaintext = False
+                    continue
             else:
-                new_node = TextNode(matches[matches_index][0], TextType.IMAGE, matches[matches_index][1])
-                matches_index += 1
+                new_node = TextNode(real_sections[i], TextType.TEXT)
                 output.append(new_node)
-                plaintext = True
+                if matches_index <= len(matches)-1:
+                    match_node = TextNode(matches[matches_index][0], TextType.IMAGE, matches[matches_index][1])
+                    output.append(match_node)
+                matches_index += 1
     return output
 
 def split_nodes_link(old_nodes): #UPDATE THIS FUNCTION TO MATCH THE STRUCTURE OF THE ABOVE FUNCTION!!!  
