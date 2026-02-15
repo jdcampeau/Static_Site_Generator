@@ -103,7 +103,7 @@ def split_nodes_image(old_nodes):
                 matches_index += 1
     return output
 
-def split_nodes_link(old_nodes): #UPDATE THIS FUNCTION TO MATCH THE STRUCTURE OF THE ABOVE FUNCTION!!!  
+def split_nodes_link(old_nodes):  
     output = []
     for node in old_nodes:
         if node.text == "":
@@ -117,22 +117,24 @@ def split_nodes_link(old_nodes): #UPDATE THIS FUNCTION TO MATCH THE STRUCTURE OF
         if len(matches) > 1:
             for i in range(len(matches)):
                 next_section = real_sections.pop(len(real_sections)-1)
-                new_sections = next_sections.split(f"[{matches[i][0]}]({matches[i][1]})", 1)
+                new_sections = next_section.split(f"[{matches[i][0]}]({matches[i][1]})", 1)
                 real_sections.extend(new_sections)
         matches_index = 0
-        for section in sections:
-            if section == "":
-                plaintext = False
-                continue
-            if plaintext is True:
-                new_node = TextNode(section, TextType.TEXT)
-                output.append(new_node)
-                plaintext = False
+        for i in range(len(real_sections)):
+            if real_sections[i] == "":
+                if matches_index == 0:
+                    match_node = TextNode(matches[matches_index][0], TextType.LINK, matches[matches_index][1])
+                    output.append(match_node)
+                    matches_index += 1
+                else:
+                    continue
             else:
-                new_node = TextNode(matches[matches_index][0], TextType.LINK, matches[matches_index][1])
-                matches_index += 1
+                new_node = TextNode(real_sections[i], TextType.TEXT)
                 output.append(new_node)
-                plaintext = True
+                if matches_index <= len(matches)-1:
+                    match_node = TextNode(matches[matches_index][0], TextType.LINK, matches[matches_index][1])
+                    output.append(match_node)
+                matches_index += 1
         return output
 
 def text_node_to_html_node(TextNode):
