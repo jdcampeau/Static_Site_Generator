@@ -137,6 +137,12 @@ def split_nodes_link(old_nodes):
                 matches_index += 1
         return output
 
+def markdown_to_textnode(markdown_text):
+    starting_node = TextNode(markdown_text, TextType.TEXT)
+    #Run this node through split_nodes_delimiter once for every delimiter type(bold, italic, code)
+    #then once through split_nodes_image and once through split_nodes_link.
+    #Return the result.
+
 def text_node_to_html_node(TextNode):
     if TextNode.text_type == TextType.TEXT:
         return LeafNode(None, TextNode.text)
