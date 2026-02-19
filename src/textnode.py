@@ -142,6 +142,7 @@ def markdown_to_textnode(markdown_text):
     #Run this node through split_nodes_delimiter once for every delimiter type(bold, italic, code)
     #then once through split_nodes_image and once through split_nodes_link.
     #Return the result.
+    #Checking to make sure new repo updates smoothly
 
 def text_node_to_html_node(TextNode):
     if TextNode.text_type == TextType.TEXT:
