@@ -188,5 +188,9 @@ class TestTextNode(unittest.TestCase):
         ]
         self.assertEqual(nodes, expected_output)
 
+    #add markdown_to_textnode test for multiple links/images/formatted blocks
+
+    #add markdown_to_textnode test for markdown text with some node types but not all
+
 if __name__ == "__main__":
     unittest.main()
