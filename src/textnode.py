@@ -46,6 +46,9 @@ def split_nodes_delimiter(input_nodes, delimiter, text_type):
                 else:
                     if node.text[i] == delimiter:
                         delimiter_count += 1
+            if delimiter_count == 0:
+                output.append(node)
+                continue
             if delimiter_count % 2 != 0:
                 raise Exception("invalid Markdown syntax")
             plaintext = True
@@ -138,7 +141,13 @@ def split_nodes_link(old_nodes):
         return output
 
 def markdown_to_textnode(markdown_text):
-    starting_node = TextNode(markdown_text, TextType.TEXT)
+    starting_node = [TextNode(markdown_text, TextType.TEXT)]
+    bold_check = split_nodes_delimiter(starting_node, "**", TextType.BOLD)
+    italic_check = split_nodes_delimiter(bold_check, "_", TextType.ITALIC)
+    code_check = split_nodes_delimiter(italic_check, "`", TextType.CODE)
+    image_check = split_nodes_image(code_check)
+    link_check = split_nodes_link(image_check)
+    return link_check
     #Run this node through split_nodes_delimiter once for every delimiter type(bold, italic, code)
     #then once through split_nodes_image and once through split_nodes_link.
     #Return the result.
