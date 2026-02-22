@@ -140,8 +140,8 @@ def split_nodes_link(old_nodes):
                 matches_index += 1
         return output
 
-def markdown_to_textnode(markdown_text):
-    starting_node = [TextNode(markdown_text, TextType.TEXT)]
+def markdown_to_textnode(markdown_block):
+    starting_node = [TextNode(markdown_block, TextType.TEXT)]
     bold_check = split_nodes_delimiter(starting_node, "**", TextType.BOLD)
     italic_check = split_nodes_delimiter(bold_check, "_", TextType.ITALIC)
     code_check = split_nodes_delimiter(italic_check, "`", TextType.CODE)
