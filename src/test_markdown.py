@@ -1,6 +1,6 @@
 import unittest
 
-from markdown import extract_markdown_images, extract_markdown_links, markdown_to_blocks
+from markdown import extract_markdown_images, extract_markdown_links, markdown_to_blocks, block_to_block_type
 
 class TestMarkdown(unittest.TestCase):
     def test_extract_markdown_images(self):
@@ -61,3 +61,15 @@ This is the same paragraph on a new line
                 "- This is a list\n- with items",
             ],
         )
+
+    def test_block_to_block_type_heading1(self):
+        md = "# This is a heading!!!"
+        block_type = block_to_block_type(md)
+        expected_output = "heading"
+        self.assertEqual(block_type, expected_output)
+
+    def test_block_to_block_type_heading6(self):
+        md = "###### This is another heading!"
+        block_type = block_to_block_type(md)
+        expected_output = "heading"
+        self.assertEqual(block_type, expected_output)
