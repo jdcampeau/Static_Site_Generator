@@ -18,10 +18,10 @@ def block_to_block_type(markdown_text): #input must be a single block, not a lis
     elif markdown_text.startswith(">") or markdown_text.startswith("> "):
         lines = True
         for line in markdown_text.splitlines():
-            if not line.startswith(">") or not line.startswith("> "):
+            if not line.startswith(">") and not line.startswith("> "):
                 lines = False
         if lines == False:
-            raise Exception("Invalid markdown syntax. Every line of a quote must start with '>' or '> '")
+            return BlockType.PARAGRAPH.value
         else:
             return BlockType.QUOTE.value
     elif markdown_text.startswith("- "):
@@ -30,7 +30,7 @@ def block_to_block_type(markdown_text): #input must be a single block, not a lis
             if not line.startswith("- "):
                 lines = False
         if lines == False:
-            raise Exception("Invalid markdown syntax. Every line of an unordered list must start with '- '")
+            return BlockType.PARAGRAPH.value
         else:
             return BlockType.UNORDERED_LIST.value
     elif markdown_text.startswith("1. "):
@@ -44,7 +44,7 @@ def block_to_block_type(markdown_text): #input must be a single block, not a lis
         if num > len(markdown_text.splitlines()):
             return BlockType.ORDERED_LIST.value
         else:
-            raise Exception("Invalid markdown syntax. Every line of an ordered list must start with '{number}. '")
+            return BlockType.PARAGRAPH.value
     else:
         return BlockType.PARAGRAPH.value
 

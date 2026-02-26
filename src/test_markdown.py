@@ -73,3 +73,27 @@ This is the same paragraph on a new line
         block_type = block_to_block_type(md)
         expected_output = "heading"
         self.assertEqual(block_type, expected_output)
+
+    def test_block_to_block_type_code(self):
+        md = "```\n[here's some fake code]```"
+        bt = block_to_block_type(md)
+        expected_output = "code"
+        self.assertEqual(bt, expected_output)
+
+    def test_block_to_block_type_quote(self):
+        md = ">Do,\n>or do not,\n>there is no 'try'."
+        bt = block_to_block_type(md)
+        exp_output = "quote"
+        self.assertEqual(bt, exp_output)
+
+    def test_block_to_block_type_unordered_list(self):
+        md = "- This\n- is\n- an\n- unordered\n- list."
+        bt = block_to_block_type(md)
+        exp_output = "unordered list"
+        self.assertEqual(bt, exp_output)
+
+    def test_block_to_block_type_ordered_list(self):
+        md = "1. This is an\n2. ordered\n3. list"
+        bt = block_to_block_type(md)
+        exp_output = "ordered list"
+        self.assertEqual(bt, exp_output)
