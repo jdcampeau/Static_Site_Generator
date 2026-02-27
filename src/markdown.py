@@ -1,5 +1,7 @@
 from enum import Enum
 
+from htmlnode import HTMLNode, LeafNode, ParentNode
+
 import re
 
 class BlockType(Enum):
@@ -65,3 +67,14 @@ def markdown_to_blocks(raw_markdown):
             continue
         blocks.append(strip)
     return blocks
+
+def markdown_to_html(markdown):
+    md_blocks = markdown_to_blocks(markdown)
+    #create empty ParentNode
+    for block in blocks:
+        block_type = block_to_block_type(block)
+        #create HTMLNode based on type
+        #assign child HTMLNode objects to the above node (use new text_to_children(text) function
+        #if type is code, create TextNode and use text_node_to_html_node
+        #make blockNode child of above ParentNode
+    # return ParentNode
