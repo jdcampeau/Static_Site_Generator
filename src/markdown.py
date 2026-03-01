@@ -70,11 +70,11 @@ def markdown_to_blocks(raw_markdown):
 
 def markdown_to_html(markdown):
     md_blocks = markdown_to_blocks(markdown)
-    #create empty ParentNode
+    leaf_nodes = []
     for block in blocks:
         block_type = block_to_block_type(block)
         #create HTMLNode based on type
-        #assign child HTMLNode objects to the above node (use new text_to_children(text) function
         #if type is code, create TextNode and use text_node_to_html_node
-        #make blockNode child of above ParentNode
-    # return ParentNode
+        #add HTMLNode to above list
+    parent_node = ParentNode("div", leaf_nodes)
+    return parent_node
