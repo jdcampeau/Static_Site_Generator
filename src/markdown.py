@@ -2,7 +2,7 @@ from enum import Enum
 
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
-from textnode import text_node_to_html_node
+from textnode import text_node_to_html_node, markdown_to_textnode
 
 import re
 
