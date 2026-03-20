@@ -171,7 +171,8 @@ def markdown_to_html_node(markdown):
     for block in md_blocks:
         block_type = block_to_block_type(block)
         if block_type == "code":
-            text_node = TextNode(block, TextType.CODE)
+            stripped_block = block.strip(" `\n")
+            text_node = TextNode(stripped_block, TextType.CODE)
             html_node = text_node_to_html_node(text_node)
             leaf_nodes.append(html_node)
         else:
